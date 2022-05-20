@@ -1,5 +1,10 @@
 Estas son las instrucciones para la actividad.
 
+Nuestros objetivos:
+1.	Practicar los conceptos del manejo de versiones con Git.
+2.	Practicar la creación colaborativa de productos de software con Github.
+
+
 Pasos
 1. 
 2.
