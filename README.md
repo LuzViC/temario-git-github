@@ -24,7 +24,7 @@
 |                                                              | 14. Herramientas integradas en IDEs y editores de texto      |
 |                                                              | 15. Consejos y recomendaciones                               |
 |                                                              | 16. Práctica #2. utilizando Git (Local)                      |
-| 3. Trabajando con repositorios remotos de GitHub             | 17. ¿Qué es GitHub?, ¿Relación entreGit y GitHub?            |
+| 3. Trabajando con repositorios remotos de GitHub             | 17. ¿Qué es GitHub?, ¿Relación entre Git y GitHub?           |
 |                                                              | 18. Explorar e interactuar con GitHub                        |
 |                                                              | 19. Trabajar con repositorios locales y remotos              |
 |                                                              | 20. Colaboraciones a otros proyectos                         |
@@ -302,3 +302,75 @@ Más información referente al .gitignore [aquí.](https://www.toptal.com/develo
 ### 9. Consejos y recomendaciones
 
 Recomendación #1: Siempre que quiera crear un repositorio de Git es recomendable que se asegure que no se encuentre actualmente dentro de otro repositorio, ya que esto podría causar problemas en las versiones de los proyectos, para asegurarse de esto lo más recomendable es utilizar el comando `git status`, si se encuentra dentro dentro de un repositorio de Git, lo más recomendable es buscar otra dirección en su directorio de archivos.
+
+Recomendación #2: Siempre que se quiera ejecutar un comando que pueda llegar a ser destructivo, tener en cuenta que una vez ejecutado no habrá vuelta atrás, Git no nos preguntará si estamos seguros de lo que vamos a hacer, por el contrario ejecuta todo lo que nosotros le indiquemos, y en algunos casos si estos comandos no hacen con todo el conocimiento, se podría perder una parte valiosa de todo nuestro código.
+
+Recomendación #3: Cuando se requiera crear un repositorio para un proyecto nuevo o existente, es altamente recomendable que se cree una carpeta bien sea en el escritorio, en la carpeta documentos o en cualquier otra carpeta en los que se tengan permisos de lecutura y escritura, NO se recomienda crear el repositorio a nivel del dico C:\ o D:\ ya que estaríamos creando un repositorio a nivel de toda la partición del disco, lo cual podría causar muchos problemas.
+
+Recomendación #4: Realizar los commits de forma recurrente, deben ser enfocados a la realización de una actividad corta, de tal modo que sean atómicos y enfocados en una sola cosa, con esto conseguimos que el mensaje sea descriptivo y fácil de deducir.
+
+Recomendación #5: Nunca eliminar la carpeta .gitignore, ya que esto podría hacer que Git realice un seguimiento innecesario a archivos como dependencias, credenciales, configuraciones del IDE o editor de texto, etc.
+
+Recomendación #6: Ejecutar el comando `git status` para ver el estado de los archivos cada vez que se vaya a ejecutar cualquier acción, bien sea agregar archivos al staging area, realizar un commit, entre otras tareas. Esto nos brinda mayor seguridad de lo que queremos hacer y los efectos que esto podría generar en nuestros archivos.
+
+Recomendación #7: En lugar de ejecutar los comandos `git add .` y `git commit -m "mensaje del commit..."` podemos ejecutar el comando `git commit -am "Mensaje del commit..."` sin necesidad de ejecutar el comando `git add .`, es decirm sirve para llevar los archivos del working directory al repositorio directamente.
+
+### 10. Trabajar con diferentes ramas en Git de forma local
+
+![Estados de un archivo dentro de un repo](./assets/img/git-branching/git-branches-merge.png)
+
+Las ramificaciones en Git nos permiten separar los flujos de trabajo en diferentes flancos de trabajo, aplicando además el principio 'Divide y vencerás' consigue una separación de tareas y corrección de errores tan eficiente como necesaria para los equipos de trabajo conformados por múltiples desarrolladores.
+
+Las ramificaciones de Git están enfocadas en funcionalidades cortas, corrección de bugs, tareas de complejidad reducida o ramas de prueba para chequear alguna funcionalidad. Estas ramas tendrán un periodo de vida y luego se integrarán nuevamente en otra rama con el fin de llevar el código hacia la rama objetivo, su periodo de vida idealmente debe ser corto, con el fin de no diferir en muchos cambios de la rama de la cual fue generada, habilitando así un flujo de trabajo más eficiente y con menor margen de conflictos de Git.
+
+### 11. Hablemos de conflictos de Git
+
+Los conflictos son una parte común de la experiencia cuando intentamos integrar partes de código de unas ramas a otras. Git hace que la fusión sea súper fácil. La mayoría de las veces, Git se las ingenia para integrar automáticamente los nuevos cambios, otras veces este proceso no se lleva de forma exitosa y llegamos a los conflictos.
+
+Los conflictos suelen surgir cuando dos personas han cambiado las mismas líneas en un archivo, o si un desarrollador ha borrado un archivo mientras otro lo estaba modificando. En estos casos, Git no puede determinar automáticamente qué es lo correcto. Los conflictos sólo afectan al desarrollador que realiza la fusión, el resto del equipo no es consciente del conflicto. Git marcará el archivo como conflictivo y detendrá el proceso de fusión. Es entonces responsabilidad de los desarrolladores resolver el conflicto.
+
+Cada conflicto deberá resolverse antes de que Git pueda ejecutar las tareas siguientes, por supuesto, este trabajo debe hacerlo el desarrollador con mucho cuidado, para resolverlo, deberá decidir si quiere integrar el código proveniente de la otra rama, si acepta el de su rama o acepta ambas porciones de código.
+
+Una forma de darnos cuenta de que tenemos un conflicto de Git es que luego de intentar realizar el merge, el nombre de la rama en la consola se le agrega al final "|MERGING", lo cual significa que Para cada conflicto tendremos unos símbolos encerrando las dos porciones que han tenido conflicto:
+
+<<<<<<< HEAD
+
+33. Hola, mi nombre es Pedro
+
+=======
+
+33. Hola, mi nombre es Ana
+
+> > > > > > > feature/conflict-test
+
+![Estados de un archivo dentro de un repo](./assets/img/git-branching/merge-conflict.png)
+
+Luego de resolver todos los conflictos, Git nos permitirá seguir realizando las acciones sobre el repositorio.
+
+Se debe tener en cuenta que las ramas contienen una copia exacta del proyecto en el punto del cual se generó, y a partir de ahí será un flujo separado que finalmente buscará integrarse nuevamente, bien sea a la rama de la cual se generó o a otra rama diferente.
+
+Para crear una nueva rama en nuestro repositorio debemos ejecutar el comando:
+
+> git checkout <nombre_de_la_rama> --> Para crear la rama solamente
+> git checkout -b <nombre_de_la_rama> --> Para crear la rama y moverse hacia ella
+> git switch -c <nombre_de_la_rama> --> Para crear la rama y moverse hacia ella
+
+Una vez creamos una rama, estamos creando un nuevo apuntador a la referencia de otro flujo de trabajo separado, lo cual significa que lo que se realice en esta rama no afectará a las demás ramas del proyecto en caso de que exista un daño en el código de esta rama.
+
+Para realizar la integración del código de la rama que ha sido creada para determinada funcionalidad/corrección de un bug se puede hacer mediante diferentes comandos, los más comúnes son el **rebase** y el **merge**, siendo el último el preferido por los desarrolladores.
+
+### 12. Flujos de trabajo básicos con Git y GitHub
+
+Existen múltiples formas de trabajar colaborativamente utlizando herramientas como Git y GitHub, esto depende por supuesto de diferentes variables, como podrían ser el tamaño del proyecto, la complejidad del mismo, el número de desarrolladores, etc... Algunos de los flujos consisten en establecer restricciones en el repositorio para evitar acciones destructivas por parte de colaboradores del proyecto, y en últimas, buscando flujos de trabajo coherentes y de alta productividad.
+
+Una buena explicación de esto se expone en el siguiente sitio web [haciendo click aquí.](https://www.atlassian.com/es/git/tutorials/comparing-workflows)
+
+### 17. ¿Qué es GitHub?, ¿Relación entre Git y GitHub?
+
+GitHub es un servicio basado en la nube que aloja repositorios de Git, esta plataforma permite a los desarrolladores colaborar y realizar cambios en proyectos compartidos, a la vez que mantienen un seguimiento detallado de su progreso, entre muchas más tareas.
+
+Desde GitHub podrás realizar seguimiento a las colaboraciones que otras personas hacen sobre tu proyecto, a la vez que podrás visitar otros proyectos, sacar copias y contribuir a diferentes comunidades de desarrollo.
+
+En el siguiente enlace podrás encontrar más información.
+
+https://www.w3schools.com/whatis/whatis_github.asp
